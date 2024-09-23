@@ -1,11 +1,23 @@
 "use client";
 
 import { useMediaQuery } from "@relume_io/relume-ui";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { RxChevronDown } from "react-icons/rx";
+
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import { Loader } from "lucide-react";
 
 type ImageProps = {
   url?: string;
@@ -25,9 +37,10 @@ type Props = {
   button: ButtonProps;
 };
 
-export type Navbar13Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
+export type Navbar13Props = React.ComponentPropsWithoutRef<"section"> &
+  Partial<Props>;
 
-export const Navbar = (props: Navbar13Props) => {
+export const MainNav = (props: Navbar13Props) => {
   const { logo, navLinks, button } = {
     ...Navbar13Defaults,
     ...props,
@@ -108,10 +121,25 @@ export const Navbar = (props: Navbar13Props) => {
           </motion.div>
         </motion.div>
         <div className="flex items-center justify-center gap-4">
-          <Button 
-          className=" text-text-black font-semibold font-gothic"
-           variant="outline"
-          >Sign in/Sign up</Button>
+          <ClerkLoading>
+            <Loader className=" size-6 font-bold text-shade-red  animate-spin" />
+          </ClerkLoading>
+          <ClerkLoaded>
+            <SignedOut>
+              <SignUpButton mode="modal">
+                <Button
+                  className=" text-text-black font-semibold font-gothic"
+                  variant="outline"
+                >
+                  Sign in/Sign up
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </ClerkLoaded>
+
           <button
             ref={buttonRef}
             className="-mr-2 flex size-12 flex-col items-center justify-center justify-self-end lg:hidden"
@@ -139,7 +167,13 @@ export const Navbar = (props: Navbar13Props) => {
   );
 };
 
-const SubMenu = ({ navLink, isMobile }: { navLink: NavLink; isMobile: boolean }) => {
+const SubMenu = ({
+  navLink,
+  isMobile,
+}: {
+  navLink: NavLink;
+  isMobile: boolean;
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (

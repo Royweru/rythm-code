@@ -13,9 +13,10 @@ export const CustomSelect = ({ val, setVal, options }: CustomSelectProps) => {
       className=" px-4 bg-blue-dark1 border  border-white 
     w-full py-1 text-neutral-50 placeholder:text-gray-300 h-12
     text-sm"
+    required
     >
       {options &&
-        options.map((item, i) => (
+        options?.map((item, i) => (
           <option value={item} key={i}>
             {item}
           </option>
