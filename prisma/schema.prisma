@@ -33,13 +33,15 @@ model Assignment{
   user_id String @unique()
 
   courseId String
+  email String?
+  phone String?
+  deadline DateTime?
   course Course @relation(fields: [courseId],references: [id],onDelete: SetNull)
 
-  
-
   images Image[]
-
+  isComplete Boolean? @default(false)
   description String
+  answer String? @default("")
 }
 
 model Image{
@@ -47,7 +49,7 @@ model Image{
     assignmentId String
     assignment Assignment @relation(fields: [assignmentId],references: [id],onDelete: Cascade)
 
-    url String
+    url String?
 }
 
 model Lesson{

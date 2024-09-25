@@ -9,7 +9,7 @@ export const Hero = () => {
   const [_open,setOpen] = useOrderModal()
   return (
     <>
-      <div className=' w-full bg-[url("/hero1.jpg")] lg:h-[550px] min-h-[300px] bg-cover bg-center'>
+      <div className=' w-full bg-[url("/hero1.jpg")]  min-h-[300px] bg-cover bg-center'>
         <Navbar />
         <div
           className=" w-full relative lg:p-20 md:p-16 p-6  md:grid lg:grid-cols-2
@@ -19,6 +19,9 @@ export const Hero = () => {
             <h2 className="max-w-lg font-bold font-gothic text-shade-yellow lg:text-[2.75rem] text-4xl relative leading-tight">
               Welcome to Rythm code where we solve your coding problems
             </h2>
+            <p className=" font-gothic text-md font-light text-white">
+              Give us your order for an assignment, you have a question make sure to ask we will make sure we complete oyur task before your deadline
+            </p>
           </div>
           <InputBox />
         </div>

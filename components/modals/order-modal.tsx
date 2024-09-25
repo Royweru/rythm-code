@@ -9,16 +9,39 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  Input,
-  Textarea,
-  DialogClose,
-  Select,
 } from "@relume_io/relume-ui";
+
+import * as z from 'zod'
+import { Input } from "../ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { BiLogoGoogle } from "react-icons/bi";
 import { useOrderModal } from "@/hooks/use-order-modal";
+import { 
+  Select,
+SelectTrigger,
+SelectContent,
+SelectItem,
+SelectValue
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import { Popover,PopoverContent,PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
 import { Button } from "../ui/button";
-import { CustomSelect } from "../custom-select";
-import { courses, deadlines } from "@/constants";
+import { cn } from "@/lib/utils";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { AssignmentSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormField,
+} from "../ui/form";
+import ImageUpload from "../image-upload";
 export const OrderModal = () => {
   const [open, setOpen] = useOrderModal();
   const [email, setEmail] = useState("");
@@ -27,6 +50,22 @@ export const OrderModal = () => {
   const [deadline, setDeadline] = useState("");
 
   const [description, setDescription] = useState("");
+  const form = useForm<z.infer<typeof AssignmentSchema>>({
+    resolver: zodResolver(AssignmentSchema),
+    defaultValues: {
+      courseId: "",
+      images: [],
+      description: "",
+      email: "",
+      phone: "",
+      deadline: null,
+      answer: "",
+    },
+  });
+  const handleSubmit = (vals: z.infer<typeof AssignmentSchema>) => {
+    console.log(vals);
+  };
+  const isSubmitting = form.formState.isSubmitting
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogPortal>
@@ -40,48 +79,199 @@ export const OrderModal = () => {
               Make sure you give as much details as possible
             </DialogDescription>
           </DialogHeader>
-          <div className=" w-full p-2 ">
-            <form className="flex-col flex space-y-2 relative">
-              <Input
-                value={email}
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="me@gmail.com"
-                className=" font-semibold tracking-wide"
+          <div className=" w-full p-1  relative">
+          <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className=" space-y-2"
+          >
+            <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email"
+                        className="col-span-1"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <Input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Phone number e.g +254 8839 20003"
-                className=" font-semibold tracking-wide"
+            <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email"
+                        className="col-span-1"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Dive into details about the specific assignment.."
-                className=" font-semibold tracking-wide min-h-[80px] "
-              />
-              <CustomSelect val={course} setVal={setCourse} options={courses} />
-              <CustomSelect
-                val={course}
-                setVal={setCourse}
-                options={deadlines}
-              />
-              <DialogFooter className=" w-full justify-end items-center mt-3">
-                <div className="  flex gap-x-2">
-                  <DialogClose>
-                    <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className=" font-semibold tracking-wide"
-                  >
-                    SUBMIT
-                  </Button>
-                </div>
-              </DialogFooter>
+                <FormField
+                  control={form.control}
+                  name="courseId"
+                  render={({ field }) => (
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                      disabled={isSubmitting}
+                      
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a language"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="One">One</SelectItem>
+                        <SelectItem value="two">two</SelectItem>
+                        <SelectItem value="three">Othree</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="courseId"
+                  render={({ field }) => (
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                      disabled={isSubmitting}
+                      
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a language"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="One">One</SelectItem>
+                        <SelectItem value="two">two</SelectItem>
+                        <SelectItem value="three">Othree</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                    <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Assignment details and description..."
+                          className=" w-full min-h-[250px]"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="deadline"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className=" font-bold text-sm text-shade-purple">
+                        Deadline
+                      </FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                              disabled={isSubmitting}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date >
+                                new Date(
+                                  new Date().setDate(new Date().getDate() + 30)
+                                ) || date < new Date()
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormDescription className=" text-sm font-light text-gray-400">
+                        Enter the deadline for your assignment if there is no
+                        deadline leave it blank
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="images"
+                  render={({ field }) => (
+                    <FormItem className=" w-full">
+                      <FormLabel className=" font-bold text-sm text-shade-purple">
+                        Upload screenshots
+                      </FormLabel>
+                      <FormDescription className=" text-sm font-light text-gray-400">
+                        If you need to upload files only screenshot images are
+                        accepted , you can send your files on our email
+                      </FormDescription>
+                      <FormControl>
+                        <ImageUpload
+                          value={field.value.map((image) => image.url)}
+                          disabled={isSubmitting}
+                          onChange={(url) =>
+                            field.onChange([...field.value, { url }])
+                          }
+                          onRemove={(url) =>
+                            field.onChange([
+                              ...field.value.filter(
+                                (current) => current.url !== url
+                              ),
+                            ])
+                          }
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
             </form>
+            </Form>
           </div>
         </DialogContent>
       </DialogPortal>
