@@ -9,7 +9,7 @@ interface OrderModalStore{
 }
 export const useOrderModal = create<OrderModalStore>((set)=>({
     isOpen:false,
-    onOpen:(data:Course[]) =>set({isOpen:false,data}),
+    onOpen:(data:Course[]) =>set({isOpen:true,data}),
     onClose:()=>set({isOpen:false}),
     data:undefined
 }))

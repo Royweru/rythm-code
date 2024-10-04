@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ImagePlus, Trash } from "lucide-react";
-import Image from "next/image";
+import { ImagePlus } from "lucide-react";
+
 import { CldUploadWidget } from "next-cloudinary";
 
 interface ImageUploadProps {
@@ -15,6 +15,7 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onRemove,
   value,
 }) => {
@@ -28,6 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onUpload = (result: any) => {
     onChange(result.info.secure_url);
   };

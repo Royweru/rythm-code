@@ -73,7 +73,7 @@ export const MainNav = (props: Navbar13Props) => {
   }, []);
 
   return (
-    <nav className="relative z-[999] mx-auto  flex w-full items-start justify-center px-[5%]  lg:mx-[5%] lg:w-auto lg:px-0">
+    <nav className="relative rounded-xl   mx-auto  flex w-full items-start justify-center px-[5%]  lg:mx-[5%] lg:w-auto lg:px-0">
       <div className="flex min-h-16 w-full items-center justify-between gap-4 px-5 md:min-h-18 md:px-8 lg:w-auto">
         <a href={logo.url}>
           <img src={logo.src} alt={logo.alt} />

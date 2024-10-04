@@ -19,47 +19,12 @@ import { NextResponse } from "next/server";
 //     return new NextResponse("Server Error", { status: 500 });
 //   }
 // }
-export async function PUT(
-  req: Request,
-  {
-    params,
-  }: {
-    params: {
-      assignmentId: string;
-    };
-  }
-) {
+export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const res = await db.assignment.update({
-      where: {
-        id: params.assignmentId,
-      },
+    const res = await db.assignment.create({
       data: {
         ...body,
-      },
-    });
-
-    return NextResponse.json(res);
-  } catch (error) {
-    console.error(error);
-    return new NextResponse("Internal server error", { status: 500 });
-  }
-}
-export async function DELETE(
-  req: Request,
-  {
-    params,
-  }: {
-    params: {
-      assignmentId: string;
-    };
-  }
-) {
-  try {
-    const res = await db.assignment.delete({
-      where: {
-        id: params.assignmentId,
       },
     });
 
