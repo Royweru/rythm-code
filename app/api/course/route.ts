@@ -23,7 +23,10 @@ export async function POST(req: Request) {
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
-export async function GET(req: Request) {
+export async function GET(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  req: Request
+) {
     try {
       const res = await db.course.findMany({
         include: {

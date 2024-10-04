@@ -55,7 +55,7 @@ export const DetailsSection = () => {
               Get that assignmet done on time
             </h3>
             <p className="mt-5 text-base text-gray-600 font-pj">
-              Need help with your coding assignment? We ensure it's completed on
+              Need help with your coding assignment? We ensure it&apos;s completed on
               time and the right way
             </p>
           </div>
@@ -116,9 +116,9 @@ export const DetailsSection = () => {
               Projects
             </h3>
             <p className="mt-5 text-base text-gray-600 font-pj">
-              We're committed to helping you build stunning, user-friendly
+              We&apos;re committed to helping you build stunning, user-friendly
               website projects that not only meet your goals but captivate your
-              audience. With our expertise, we'll ensure your site is visually
+              audience. With our expertise, we&apos;ll ensure your site is visually
               appealing, highly functional, and truly stands out in the digital
               world.{" "}
             </p>
@@ -175,7 +175,7 @@ export const DetailsSection = () => {
               students, focusing on software and website development. Our expert
               team is dedicated to delivering comprehensive, well-researched,
               and professionally written projects that meet academic standards
-              and stand out for their technical accuracy. Whether it's
+              and stand out for their technical accuracy. Whether it&apos;s
               developing custom software solutions or designing cutting-edge
               websites, we ensure your thesis is not only polished and
               insightful but also showcases your understanding of the subject
@@ -237,8 +237,8 @@ export const DetailsSection = () => {
               courses by offering top-notch assignment editing services. Our
               goal is to refine your work to ensure clarity, accuracy, and
               professionalism, helping you present polished, high-quality
-              assignments that meet academic standards. Whether it's fine-tuning
-              technical details or improving overall structure, we're here to
+              assignments that meet academic standards. Whether it&apos;s fine-tuning
+              technical details or improving overall structure, we&apos;re here to
               enhance your success for cheaper prices.
             </p>
           </div>

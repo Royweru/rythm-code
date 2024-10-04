@@ -1,4 +1,4 @@
-import { BiEnvelope, BiMap, BiMessageDetail, BiPhone } from "react-icons/bi";
+import { BiEnvelope,  BiMessageDetail, BiPhone } from "react-icons/bi";
 
 type LinkProps = {
   label: string;
@@ -22,7 +22,7 @@ type Props = {
 export type Contact24Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
 
 export const Contact= (props: Contact24Props) => {
-  const { tagline, heading, description, contacts } = {
+  const {  heading, description, contacts } = {
     ...Contact24Defaults,
     ...props,
   } as Props;
