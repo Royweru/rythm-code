@@ -7,6 +7,8 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
+import axios from 'axios'
+import { toast } from "sonner";
 import * as z from "zod";
 import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,10 +55,16 @@ export const OrderModal = () => {
       answer: "",
     },
   });
-  const handleSubmit = (vals: z.infer<typeof AssignmentSchema>) => {
-    onClose();
-    console.log(vals);
-    form.reset();
+  const handleSubmit = async(vals: z.infer<typeof AssignmentSchema>) => {
+    try {
+      const res = await axios.post('/api/assignment',vals)
+        console.log(res)
+        toast.success('Assigment received successfully')
+        form.reset()
+    } catch (error) {
+      console.error(error)
+      toast.error("Something went wrong")
+    }
   };
   const isSubmitting = form.formState.isSubmitting;
   return (

@@ -54,16 +54,17 @@ export const InputBox = ({
     },
   });
 
-  const handleSubmit = async(vals: z.infer<typeof AssignmentSchema>) => {
-    try {
-      const res = await axios.post('/api/assignment',vals)
-        console.log(res)
-        toast.success('Assigment received successfully')
-    } catch (error) {
-      console.error(error)
-      toast.error("Something went wrong")
-    }
-  };
+      const handleSubmit = async(vals: z.infer<typeof AssignmentSchema>) => {
+        try {
+          const res = await axios.post('/api/assignment',vals)
+            console.log(res)
+            toast.success('Assigment received successfully')
+            form.reset()
+        } catch (error) {
+          console.error(error)
+          toast.error("Something went wrong")
+        }
+      };
 
   useEffect(() => {
     console.log(form.formState.errors); // Inspect validation errors in real-time
