@@ -30,12 +30,16 @@ import {
   SelectItem,
   SelectTrigger,
   SelectContent,
-  SelectLabel,
   SelectValue,
 } from "../ui/select";
 import ImageUpload from "../image-upload";
+import { Course } from "@prisma/client";
 
-export const InputBox = () => {
+export const InputBox = ({
+  courses
+}:{
+  courses:Course[]
+}) => {
   const form = useForm<z.infer<typeof AssignmentSchema>>({
     resolver: zodResolver(AssignmentSchema),
     defaultValues: {
@@ -62,8 +66,8 @@ export const InputBox = () => {
   return (
     <div className=" col-span-1  hidden md:block">
       <div
-        className=" border-neutral-300 border-double
-      shadow-large w-full  p-3 relative bg-text-blackgrey border-4"
+        className=" border-neutral-300   border-dashed
+      shadow-large w-full  p-3 relative bg-text-blackgrey border-2"
       >
         <Form {...form}>
           <form
@@ -127,9 +131,11 @@ export const InputBox = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="One">One</SelectItem>
-                        <SelectItem value="two">two</SelectItem>
-                        <SelectItem value="three">Othree</SelectItem>
+                        {courses.map((course)=>(
+                          <SelectItem value={course.id} key={course.id}>
+                           {course.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   )}
@@ -141,7 +147,7 @@ export const InputBox = () => {
                     <FormItem>
                       <FormControl>
                         <Textarea
-                          placeholder="Assignment details and description..."
+                          placeholder="Write your question/assignment details e.g How do you reverse a string? "
                           className=" w-full min-h-[250px]"
                           {...field}
                         />
@@ -160,10 +166,7 @@ export const InputBox = () => {
                       <FormLabel className=" font-bold text-sm text-shade-purple">
                         Upload screenshots
                       </FormLabel>
-                      <FormDescription className=" text-sm font-light text-gray-400">
-                        If you need to upload files only screenshot images are
-                        accepted , you can send your files on our email
-                      </FormDescription>
+                    
                       <FormControl>
                         <ImageUpload
                           value={field.value.map((image) => image.url)}
@@ -182,6 +185,10 @@ export const InputBox = () => {
                       </FormControl>
 
                       <FormMessage />
+                      <FormDescription className=" text-sm font-light text-gray-400">
+                        If you need to upload files only screenshot images are
+                        allowed, you can send your files through our email
+                      </FormDescription>
                     </FormItem>
                   )}
                 />
@@ -230,8 +237,7 @@ export const InputBox = () => {
                         </PopoverContent>
                       </Popover>
                       <FormDescription className=" text-sm font-light text-gray-400">
-                        Enter the deadline for your assignment if there is no
-                        deadline leave it blank
+                        Enter the deadline for your assignment if none leave it blank
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -242,7 +248,8 @@ export const InputBox = () => {
             <div className=" w-full px-12  mt-3 flex justify-center items-center">
               <Button
                 variant="secondary"
-                className=" font-semibold text-white text-sm w-full"
+                className=" font-semibold text-black
+                text-sm w-full"
                 type="submit"
                 disabled={isSubmitting}
               >

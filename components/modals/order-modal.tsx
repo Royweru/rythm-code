@@ -1,31 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Dialog,
-  DialogTrigger,
-  DialogPortal,
-  DialogOverlay,
-  DialogContent,
   DialogHeader,
+  DialogContent,
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@relume_io/relume-ui";
-
-import * as z from 'zod'
+} from "../ui/dialog";
+import * as z from "zod";
 import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { BiLogoGoogle } from "react-icons/bi";
+
 import { useOrderModal } from "@/hooks/use-order-modal";
-import { 
+import {
   Select,
-SelectTrigger,
-SelectContent,
-SelectItem,
-SelectValue
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import { Popover,PopoverContent,PopoverTrigger } from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -42,14 +38,9 @@ import {
   FormField,
 } from "../ui/form";
 import ImageUpload from "../image-upload";
+import { ScrollArea } from "../ui/scroll-area";
 export const OrderModal = () => {
-  const [open, setOpen] = useOrderModal();
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [course, setCourse] = useState("");
-  const [deadline, setDeadline] = useState("");
-
-  const [description, setDescription] = useState("");
+  const { isOpen, data, onClose } = useOrderModal();
   const form = useForm<z.infer<typeof AssignmentSchema>>({
     resolver: zodResolver(AssignmentSchema),
     defaultValues: {
@@ -63,60 +54,62 @@ export const OrderModal = () => {
     },
   });
   const handleSubmit = (vals: z.infer<typeof AssignmentSchema>) => {
+    onClose();
     console.log(vals);
+    form.reset();
   };
-  const isSubmitting = form.formState.isSubmitting
+  const isSubmitting = form.formState.isSubmitting;
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogPortal>
-        <DialogOverlay className="bg-black/60" />
-        <DialogContent className="w-full max-w-md bg-white p-5">
-          <DialogHeader>
-            <DialogTitle className=" font-semibold text-3xl font-gothic  text-blue-dark3">
-              Make your order
-            </DialogTitle>
-            <DialogDescription className=" text-sm font-light  text-gray-700">
-              Make sure you give as much details as possible
-            </DialogDescription>
-          </DialogHeader>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="w-full max-w-md bg-white p-5">
+        <DialogHeader>
+          <DialogTitle className=" font-semibold text-3xl font-gothic  text-blue-dark3">
+            Make your order
+          </DialogTitle>
+          <DialogDescription className=" text-sm font-light  text-gray-700">
+            Make sure you give as much details as possible
+          </DialogDescription>
+        </DialogHeader>
+        <ScrollArea className=" h-[400px] p-3">
           <div className=" w-full p-1  relative">
-          <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className=" space-y-2"
-          >
-            <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your email"
-                        className="col-span-1"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your email"
-                        className="col-span-1"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className=" space-y-2"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your email"
+                          className="col-span-1"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your phone number e.g +254 759 355366"
+                          className="col-span-1"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="courseId"
@@ -126,7 +119,6 @@ export const OrderModal = () => {
                       value={field.value}
                       defaultValue={field.value}
                       disabled={isSubmitting}
-                      
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -137,41 +129,16 @@ export const OrderModal = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="One">One</SelectItem>
-                        <SelectItem value="two">two</SelectItem>
-                        <SelectItem value="three">Othree</SelectItem>
+                        {data.map((course) => (
+                          <SelectItem key={course.id} value={course.id}>
+                            {course.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   )}
                 />
                 <FormField
-                  control={form.control}
-                  name="courseId"
-                  render={({ field }) => (
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                      disabled={isSubmitting}
-                      
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder="Select a language"
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="One">One</SelectItem>
-                        <SelectItem value="two">two</SelectItem>
-                        <SelectItem value="three">Othree</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                    <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
@@ -186,7 +153,7 @@ export const OrderModal = () => {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
                   name="deadline"
                   render={({ field }) => (
@@ -270,11 +237,23 @@ export const OrderModal = () => {
                     </FormItem>
                   )}
                 />
-            </form>
+
+                <div className=" mt-3 w-full ">
+                  <DialogFooter className=" w-full px-12">
+                    <Button
+                      variant="secondary"
+                      className=" w-full font-semibold text-text-blackgrey"
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                  </DialogFooter>
+                </div>
+              </form>
             </Form>
           </div>
-        </DialogContent>
-      </DialogPortal>
+        </ScrollArea>
+      </DialogContent>
     </Dialog>
   );
 };

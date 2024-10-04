@@ -10,8 +10,9 @@ import { RxChevronDown } from "react-icons/rx";
 import {
   ClerkLoaded,
   ClerkLoading,
-  ClerkProvider,
+
   SignInButton,
+
   SignUpButton,
   SignedIn,
   SignedOut,
@@ -41,7 +42,7 @@ export type Navbar13Props = React.ComponentPropsWithoutRef<"section"> &
   Partial<Props>;
 
 export const MainNav = (props: Navbar13Props) => {
-  const { logo, navLinks, button } = {
+  const { logo, navLinks} = {
     ...Navbar13Defaults,
     ...props,
   } as Props;
@@ -126,14 +127,26 @@ export const MainNav = (props: Navbar13Props) => {
           </ClerkLoading>
           <ClerkLoaded>
             <SignedOut>
-              <SignUpButton mode="modal">
+
+              <SignUpButton mode="modal" forceRedirectUrl="/">
                 <Button
                   className=" text-text-black font-semibold font-gothic"
                   variant="outline"
                 >
-                  Sign in/Sign up
+                 Sign up
                 </Button>
               </SignUpButton>
+              <SignInButton
+              forceRedirectUrl="/"
+              mode="modal"
+             >
+                      <Button
+                  className=" text-text-alternative font-semibold font-gothic"
+                  variant="ghost"
+                >
+                 Sign In
+                </Button>
+              </SignInButton>
             </SignedOut>
             <SignedIn>
               <UserButton />
