@@ -1,7 +1,7 @@
 "use client";
 import * as z from "zod";
-import React, { useState, useEffect } from "react";
-
+import React, {  useEffect } from "react";
+import axios from 'axios'
 import { Button } from "../ui/button";
 
 import { Calendar } from "@/components/ui/calendar";
@@ -34,6 +34,7 @@ import {
 } from "../ui/select";
 import ImageUpload from "../image-upload";
 import { Course } from "@prisma/client";
+import { toast } from "sonner";
 
 export const InputBox = ({
   courses
@@ -53,8 +54,15 @@ export const InputBox = ({
     },
   });
 
-  const handleSubmit = (vals: z.infer<typeof AssignmentSchema>) => {
-    console.log(vals);
+  const handleSubmit = async(vals: z.infer<typeof AssignmentSchema>) => {
+    try {
+      const res = await axios.post('/api/assignment',vals)
+        console.log(res)
+        toast.success('Assigment received successfully')
+    } catch (error) {
+      console.error(error)
+      toast.error("Something went wrong")
+    }
   };
 
   useEffect(() => {

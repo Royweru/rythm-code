@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Footer } from "@/components/footer";
-import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { ModalProvider } from "@/components/modal-provider";
-import { JotaiProvider } from "@/components/jotai-provider";
+
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,11 +34,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <JotaiProvider>
+          
             <ModalProvider />
             {children}
             <Footer />
-          </JotaiProvider>
+            <Toaster />
         </body>
       </html>
     </ClerkProvider>
