@@ -45,7 +45,6 @@ export async function POST(req: Request) {
             data: [...images.map((image: { url: string }) => image)],
           },
         },
-        user_id: userId,
       },
     });
 
