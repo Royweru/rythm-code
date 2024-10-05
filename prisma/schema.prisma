@@ -30,7 +30,6 @@ model Course {
 
 model Assignment{
   id String @id @default(uuid())
-  user_id String @unique()
 
   courseId String
   email String?
